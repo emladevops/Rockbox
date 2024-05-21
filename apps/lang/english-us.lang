@@ -285,7 +285,7 @@
     *: "Rockbox"
   </source>
   <dest>
-    *: "Rockbox"
+    *: "kirby's Rockbox"
   </dest>
   <voice>
     *: "Rockbox"
@@ -5889,10 +5889,10 @@
     *: "Playlist Catalogue"
   </source>
   <dest>
-    *: "Playlist Catalog"
+    *: "Playlists"
   </dest>
   <voice>
-    *: "Playlist Catalog"
+    *: "Playlists"
   </voice>
 </phrase>
 <phrase>

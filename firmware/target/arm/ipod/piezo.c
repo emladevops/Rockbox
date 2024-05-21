@@ -75,6 +75,12 @@ static void piezo_thread(void)
             case Q_PIEZO_BEEP:
                 piezo_hw_tick((unsigned int)ev.data);
                 beeping = true;
+                sleep(duration);
+                if (beeping)
+                    piezo_hw_stop();
+                beeping = false;
+                /* remove anything that appeared while sleeping */
+                queue_clear(&piezo_queue);
                 break;
             case Q_PIEZO_BEEP_FOR_TICK:
                 piezo_hw_tick((unsigned int)ev.data);

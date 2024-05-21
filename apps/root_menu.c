@@ -446,11 +446,16 @@ extern struct menu_item_ex
         info_menu,
         system_menu;
 static const struct root_items items[] = {
-    [GO_TO_FILEBROWSER] =   { browser, (void*)GO_TO_FILEBROWSER, &file_menu},
+    [GO_TO_WPS] =           { wpsscrn, NULL, &playback_settings },
 #ifdef HAVE_TAGCACHE
     [GO_TO_DBBROWSER] =     { browser, (void*)GO_TO_DBBROWSER, &tagcache_menu },
+    [GO_TO_PLAYLISTS_SCREEN] = { playlist_view_catalog, NULL,
+                                                    &playlist_options },
 #endif
-    [GO_TO_WPS] =           { wpsscrn, NULL, &playback_settings },
+
+    [GO_TO_FILEBROWSER] =   { browser, (void*)GO_TO_FILEBROWSER, &file_menu},
+
+
     [GO_TO_MAINMENU] =      { miscscrn, (struct menu_item_ex*)&main_menu_,
                                                             &manage_settings },
 
@@ -464,8 +469,7 @@ static const struct root_items items[] = {
 
     [GO_TO_RECENTBMARKS] =  { load_bmarks, NULL, &bookmark_settings_menu },
     [GO_TO_BROWSEPLUGINS] = { miscscrn, &plugin_menu, NULL },
-    [GO_TO_PLAYLISTS_SCREEN] = { playlist_view_catalog, NULL,
-                                                        &playlist_options },
+
     [GO_TO_PLAYLIST_VIEWER] = { playlist_view, NULL, &playlist_options },
     [GO_TO_SYSTEM_SCREEN] = { miscscrn, &info_menu, &system_menu },
     [GO_TO_SHORTCUTMENU] = { do_shortcut_menu, NULL, NULL },

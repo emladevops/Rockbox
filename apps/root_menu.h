@@ -43,10 +43,10 @@ enum {
     GO_TO_PREVIOUS = -2,
     GO_TO_ROOT = -1,
     GO_TO_FILEBROWSER = 0,
+    GO_TO_WPS,
 #ifdef HAVE_TAGCACHE
     GO_TO_DBBROWSER,
 #endif
-    GO_TO_WPS,
     GO_TO_MAINMENU,
 #ifdef HAVE_RECORDING
     GO_TO_RECSCREEN,

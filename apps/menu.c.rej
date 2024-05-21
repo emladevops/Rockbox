@@ -1,0 +1,11 @@
+--- apps/menu.c	(revision 12552)
++++ apps/menu.c	(working copy)
+@@ -390,7 +390,7 @@
+ static void init_menu_lists(const struct menu_item_ex *menu,
+                      struct gui_synclist *lists, int selected, bool callback)
+ {
+-    int i, count = (menu->flags&MENU_COUNT_MASK)>>MENU_COUNT_SHIFT;
++    int i, count = MENU_NUM_OF_ITEMS(menu);
+     menu_callback_type menu_callback = NULL;
+     ICON icon = NOICON;
+     current_subitems_count = 0;

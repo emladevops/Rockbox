@@ -530,14 +530,12 @@ static struct menu_callback_with_desc root_menu_desc = {
 
 static struct menu_table menu_table[] = {
     /* Order here represents the default ordering */
-    { "playlists", &playlists },
-    { "wps", &wps_item },
     { "bookmarks", &bookmarks },
     { "files", &file_browser },
 #ifdef HAVE_TAGCACHE
     { "database", &db_browser },
 #endif
-    
+    { "wps", &wps_item },
     { "settings", &menu_ },
 #ifdef HAVE_RECORDING
     { "recording", &rec },
@@ -545,7 +543,7 @@ static struct menu_table menu_table[] = {
 #if CONFIG_TUNER
     { "radio", &fm },
 #endif
-
+    { "playlists", &playlists },
     { "plugins", &rocks_browser },
     { "system_menu", &system_menu_ },
     { "shortcuts", &shortcut_menu },

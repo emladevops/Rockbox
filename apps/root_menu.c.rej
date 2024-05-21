@@ -1,0 +1,91 @@
+--- apps/root_menu.c	(revision 12552)
++++ apps/root_menu.c	(working copy)
+@@ -299,13 +299,88 @@
+     return action;
+ }
+ 
++static bool adjust_menu(const struct menu_item_ex *menu, char *item_names[],
++                            char *reorder_file_name) {
++    #define MAX_ENTRY_LENGTH 15
++    #define MAX_ENTRIES 15
++    
++    char entries_storage[MAX_ENTRIES*MAX_ENTRY_LENGTH];
++    char *entries[MAX_ENTRIES], *p;
++    int fd, rc;
++    int entry_cnt, i;
++    bool retval;
++
++    /* Read the entries from the file */
++    fd = open(reorder_file_name, O_RDONLY);
++    if (fd < 0) {
++        return false;
++    }
++    entry_cnt = 0;
++    while (entry_cnt < MAX_ENTRIES) {
++        p = entries_storage+entry_cnt*MAX_ENTRY_LENGTH;
++        rc = read_line(fd, p, MAX_ENTRY_LENGTH);
++        if (rc <= 0) {
++            break;
++        }
++        if ((*p == '#') || (*p == '\0')) {
++            /* Skip comments and empty lines */
++            continue;
++        }
++        entries[entry_cnt++] = p;
++    }
++    close(fd);
++    DEBUGF("Read %d items\n", entry_cnt);
++    for (i = 0; i < entry_cnt; i++) {
++        DEBUGF("%d: '%s'\n", (i+1), entries_storage+i*MAX_ENTRY_LENGTH);
++    }
++    if (entry_cnt != MENU_NUM_OF_ITEMS(menu)) {
++        DEBUGF("Bad number of items in the file: %d (should be %d)\n",
++                entry_cnt, MENU_NUM_OF_ITEMS(menu));
++        return false;
++    }
++    retval = menu_reorder_items(menu->submenus, item_names, &(entries[0]), entry_cnt);
++    return retval;
++}
++
+ void root_menu(void)
+ {
++    /* Set to true when the entries in the root menu are reordered.
++     * This is made only once.
++     */
++    static bool tried_to_adjust_root_menu = false;
++    /* The strings in the following array must be in the same order
++     * as the entries in the MAKE_MENU for the root_menu_ (see above)
++     */
++    static char *root_menu_names[] = {
++            "bookmarks",
++            "files",
++            "database",
++            "now playing",
++            "settings",
++#ifdef HAVE_RECORDING
++            "recording",
++#endif
++#if CONFIG_TUNER
++            "fm radio",
++#endif
++            "playlists",
++            "plugins",
++            "system",
++#ifdef HAVE_LCD_CHARCELLS
++            "shutdown"
++#endif
++        };
++    
+     int previous_browser = GO_TO_FILEBROWSER;
+     int previous_music = GO_TO_WPS;
+     int ret_val = GO_TO_ROOT;
+     int this_screen = GO_TO_ROOT;
+     int selected = 0;
++    
++    if (!tried_to_adjust_root_menu) {
++        adjust_menu(&root_menu_, root_menu_names, "/.rockbox/main_menu.mnu");
++        tried_to_adjust_root_menu = true;
++    }
+ 
+     if (global_settings.start_in_screen == 0)
+         ret_val = (int)global_status.last_screen;

@@ -1,0 +1,35 @@
+--- apps/menu.h	(revision 12552)
++++ apps/menu.h	(working copy)
+@@ -122,6 +121,8 @@
+ bool do_setting_from_menu(const struct menu_item_ex *temp);
+ 
+ #define MENU_ITEM_COUNT(c) (c<<MENU_COUNT_SHIFT)
++#define MENU_NUM_OF_ITEMS(menu_ptr) ((menu_ptr->flags&MENU_COUNT_MASK)>>MENU_COUNT_SHIFT)
++
+ /* In all the following macros the argument names are as follows:
+     - name: The name for the variable (so it can be used in a MAKE_MENU()
+     - str:  the string to display for this menu item. use ID2P() for LANG_* id's
+@@ -240,5 +241,23 @@
+             { (void*)name##_},{.callback_and_desc = & name##__}};
+             
+ #endif /* HAVE_LCD_BITMAP */
++
++/* Reorders the given items.
++ *
++ * items menu items to reorder
++ * item_names names for referring of the items in the same order as the items
++ * ordered_names how the items should be reordered. These must be the names
++ *         from item_names but (possibly) in the other order, i.e. a permutation
++ *         of item_names.
++ * item_cnt number of the items and of the names
++ *
++ * The array items is reordered in-place. If something goes wrong
++ * (e.g. ordered_names contains a string not present in item_names)
++ * nothing is changed.
++ *
++ * Returns true iff everything went ok (and hence the items have been reordered).
++ */
++bool menu_reorder_items(const struct menu_item_ex **items, char *item_names[],
++            char *ordered_names[], int item_cnt);
+             
+ #endif /* End __MENU_H__ */

@@ -29,6 +29,7 @@
 #include "settings_list.h"
 #include "gui/list.h"
 
+
 enum menu_item_type {
     MT_MENU = 0,
     MT_SETTING,
